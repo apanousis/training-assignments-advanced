@@ -51,6 +51,7 @@ import com.jme3.util.BufferUtils;
 import com.jme3.util.IntMap;
 import com.jme3.util.IntMap.Entry;
 import com.jme3.util.SafeArrayList;
+import com.jme3.util.Vector3BufferUtils;
 import com.jme3.util.clone.Cloner;
 import com.jme3.util.clone.JmeCloneable;
 import java.io.IOException;
@@ -894,9 +895,9 @@ public class Mesh implements Savable, Cloneable, JmeCloneable {
             int vert2 = ib.get(vertIndex+1);
             int vert3 = ib.get(vertIndex+2);
 
-            BufferUtils.populateFromBuffer(v1, fpb, vert1);
-            BufferUtils.populateFromBuffer(v2, fpb, vert2);
-            BufferUtils.populateFromBuffer(v3, fpb, vert3);
+            Vector3BufferUtils.populateFromBuffer(v1, fpb, vert1);
+            Vector3BufferUtils.populateFromBuffer(v2, fpb, vert2);
+            Vector3BufferUtils.populateFromBuffer(v3, fpb, vert3);
         }else{
             throw new UnsupportedOperationException("Position buffer not set or "
                                                   + " has incompatible format");

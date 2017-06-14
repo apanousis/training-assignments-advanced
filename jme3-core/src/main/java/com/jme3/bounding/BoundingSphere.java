@@ -41,6 +41,8 @@ import com.jme3.math.*;
 import com.jme3.scene.Spatial;
 import com.jme3.util.BufferUtils;
 import com.jme3.util.TempVars;
+import com.jme3.util.Vector3BufferUtils;
+
 import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.util.logging.Level;
@@ -222,36 +224,36 @@ public class BoundingSphere extends BoundingVolume {
                 break;
             case 1:
                 this.radius = 1f - RADIUS_EPSILON;
-                BufferUtils.populateFromBuffer(center, points, ap - 1);
+                Vector3BufferUtils.populateFromBuffer(center, points, ap - 1);
                 break;
             case 2:
-                BufferUtils.populateFromBuffer(tempA, points, ap - 1);
-                BufferUtils.populateFromBuffer(tempB, points, ap - 2);
+                Vector3BufferUtils.populateFromBuffer(tempA, points, ap - 1);
+                Vector3BufferUtils.populateFromBuffer(tempB, points, ap - 2);
                 setSphere(tempA, tempB);
                 break;
             case 3:
-                BufferUtils.populateFromBuffer(tempA, points, ap - 1);
-                BufferUtils.populateFromBuffer(tempB, points, ap - 2);
-                BufferUtils.populateFromBuffer(tempC, points, ap - 3);
+                Vector3BufferUtils.populateFromBuffer(tempA, points, ap - 1);
+                Vector3BufferUtils.populateFromBuffer(tempB, points, ap - 2);
+                Vector3BufferUtils.populateFromBuffer(tempC, points, ap - 3);
                 setSphere(tempA, tempB, tempC);
                 break;
             case 4:
-                BufferUtils.populateFromBuffer(tempA, points, ap - 1);
-                BufferUtils.populateFromBuffer(tempB, points, ap - 2);
-                BufferUtils.populateFromBuffer(tempC, points, ap - 3);
-                BufferUtils.populateFromBuffer(tempD, points, ap - 4);
+                Vector3BufferUtils.populateFromBuffer(tempA, points, ap - 1);
+                Vector3BufferUtils.populateFromBuffer(tempB, points, ap - 2);
+                Vector3BufferUtils.populateFromBuffer(tempC, points, ap - 3);
+                Vector3BufferUtils.populateFromBuffer(tempD, points, ap - 4);
                 setSphere(tempA, tempB, tempC, tempD);
                 //vars.release();
                 return;
         }
         for (int i = 0; i < p; i++) {
-            BufferUtils.populateFromBuffer(tempA, points, i + ap);
+            Vector3BufferUtils.populateFromBuffer(tempA, points, i + ap);
             if (tempA.distanceSquared(center) - (radius * radius) > RADIUS_EPSILON - 1f) {
                 for (int j = i; j > 0; j--) {
-                    BufferUtils.populateFromBuffer(tempB, points, j + ap);
-                    BufferUtils.populateFromBuffer(tempC, points, j - 1 + ap);
-                    BufferUtils.setInBuffer(tempC, points, j + ap);
-                    BufferUtils.setInBuffer(tempB, points, j - 1 + ap);
+                    Vector3BufferUtils.populateFromBuffer(tempB, points, j + ap);
+                    Vector3BufferUtils.populateFromBuffer(tempC, points, j - 1 + ap);
+                    Vector3BufferUtils.setInBuffer(tempC, points, j + ap);
+                    Vector3BufferUtils.setInBuffer(tempB, points, j - 1 + ap);
                 }
                 recurseMini(points, i, b + 1, ap + 1);
             }

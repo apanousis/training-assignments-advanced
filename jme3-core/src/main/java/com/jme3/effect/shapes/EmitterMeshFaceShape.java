@@ -35,7 +35,8 @@ import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.VertexBuffer.Type;
-import com.jme3.util.BufferUtils;
+import com.jme3.util.Vector3BufferUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,7 +66,7 @@ public class EmitterMeshFaceShape extends EmitterMeshVertexShape {
         this.vertices = new ArrayList<List<Vector3f>>(meshes.size());
         this.normals = new ArrayList<List<Vector3f>>(meshes.size());
         for (Mesh mesh : meshes) {
-            Vector3f[] vertexTable = BufferUtils.getVector3Array(mesh.getFloatBuffer(Type.Position));
+            Vector3f[] vertexTable = Vector3BufferUtils.getVector3Array(mesh.getFloatBuffer(Type.Position));
             int[] indices = new int[3];
             List<Vector3f> vertices = new ArrayList<Vector3f>(mesh.getTriangleCount() * 3);
             List<Vector3f> normals = new ArrayList<Vector3f>(mesh.getTriangleCount());

@@ -40,6 +40,9 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.VertexBuffer.Type;
 import com.jme3.util.BufferUtils;
+import com.jme3.util.Vector2BufferUtils;
+import com.jme3.util.Vector3BufferUtils;
+
 import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
@@ -115,15 +118,15 @@ public class Torus extends Mesh {
     private void setGeometryData() {
         // allocate vertices
         int vertCount = (circleSamples + 1) * (radialSamples + 1);
-        FloatBuffer fpb = BufferUtils.createVector3Buffer(vertCount);
+        FloatBuffer fpb = Vector3BufferUtils.createVector3Buffer(vertCount);
         setBuffer(Type.Position, 3, fpb);
 
         // allocate normals if requested
-        FloatBuffer fnb = BufferUtils.createVector3Buffer(vertCount);
+        FloatBuffer fnb = Vector3BufferUtils.createVector3Buffer(vertCount);
         setBuffer(Type.Normal, 3, fnb);
 
         // allocate texture coordinates
-        FloatBuffer ftb = BufferUtils.createVector2Buffer(vertCount);
+        FloatBuffer ftb = Vector2BufferUtils.createVector2Buffer(vertCount);
         setBuffer(Type.TexCoord, 2, ftb);
 
         // generate geometry
@@ -162,8 +165,8 @@ public class Torus extends Mesh {
                 i++;
             }
 
-            BufferUtils.copyInternalVector3(fpb, iSave, i);
-            BufferUtils.copyInternalVector3(fnb, iSave, i);
+            Vector3BufferUtils.copyInternalVector3(fpb, iSave, i);
+            Vector3BufferUtils.copyInternalVector3(fnb, iSave, i);
 
             ftb.put(1.0f).put(circleFraction);
 
@@ -172,9 +175,9 @@ public class Torus extends Mesh {
 
         // duplicate the cylinder ends to form a torus
         for (int iR = 0; iR <= radialSamples; iR++, i++) {
-            BufferUtils.copyInternalVector3(fpb, iR, i);
-            BufferUtils.copyInternalVector3(fnb, iR, i);
-            BufferUtils.copyInternalVector2(ftb, iR, i);
+            Vector3BufferUtils.copyInternalVector3(fpb, iR, i);
+            Vector3BufferUtils.copyInternalVector3(fnb, iR, i);
+            Vector2BufferUtils.copyInternalVector2(ftb, iR, i);
             ftb.put(i * 2 + 1, 1.0f);
         }
     }

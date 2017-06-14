@@ -36,9 +36,7 @@ import com.jme3.math.FastMath;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.*;
-import com.jme3.scene.VertexBuffer.Format;
 import com.jme3.scene.VertexBuffer.Type;
-import com.jme3.scene.VertexBuffer.Usage;
 import com.jme3.scene.mesh.IndexBuffer;
 
 import static com.jme3.util.BufferUtils.*;
@@ -249,8 +247,8 @@ public class TangentBinormalGenerator {
         for (int i = 0; i < indexBuffer.size() / 3; i++) {
             for (int j = 0; j < 3; j++) {
                 index[j] = indexBuffer.get(i * 3 + j);
-                populateFromBuffer(v[j], vertexBuffer, index[j]);
-                populateFromBuffer(t[j], textureBuffer, index[j]);
+                Vector3BufferUtils.populateFromBuffer(v[j], vertexBuffer, index[j]);
+                Vector2BufferUtils.populateFromBuffer(t[j], textureBuffer, index[j]);
             }
             
             TriangleData triData = processTriangle(index, v, t);
@@ -278,7 +276,7 @@ public class TangentBinormalGenerator {
         for (int i = 0; i < vertexData.size(); i++) {
             ArrayList<TriangleData> triangles = vertexData.get(i).triangles;
             Vector3f givenNormal = new Vector3f();
-            populateFromBuffer(givenNormal, normalBuffer, i);
+            Vector3BufferUtils.populateFromBuffer(givenNormal, normalBuffer, i);
           
             ArrayList<TriangleData> trianglesUp = new ArrayList<TriangleData>();
             ArrayList<TriangleData> trianglesDown = new ArrayList<TriangleData>();  
@@ -451,16 +449,16 @@ public class TangentBinormalGenerator {
         index[0] = indexBuffer.get(0);
         index[1] = indexBuffer.get(1);
         
-        populateFromBuffer(v[0], vertexBuffer, index[0]);
-        populateFromBuffer(v[1], vertexBuffer, index[1]);
+        Vector3BufferUtils.populateFromBuffer(v[0], vertexBuffer, index[0]);
+        Vector3BufferUtils.populateFromBuffer(v[1], vertexBuffer, index[1]);
         
-        populateFromBuffer(t[0], textureBuffer, index[0]);
-        populateFromBuffer(t[1], textureBuffer, index[1]);
+        Vector2BufferUtils.populateFromBuffer(t[0], textureBuffer, index[0]);
+        Vector2BufferUtils.populateFromBuffer(t[1], textureBuffer, index[1]);
         
         for (int i = 2; i < indexBuffer.size(); i++) {
             index[2] = indexBuffer.get(i);
-            BufferUtils.populateFromBuffer(v[2], vertexBuffer, index[2]);
-            BufferUtils.populateFromBuffer(t[2], textureBuffer, index[2]);
+            Vector3BufferUtils.populateFromBuffer(v[2], vertexBuffer, index[2]);
+            Vector2BufferUtils.populateFromBuffer(t[2], textureBuffer, index[2]);
             
             boolean isDegenerate = isDegenerateTriangle(v[0], v[1], v[2]);
             TriangleData triData = processTriangle(index, v, t);
@@ -499,16 +497,16 @@ public class TangentBinormalGenerator {
         index[0] = indexBuffer.get(0);
         index[1] = indexBuffer.get(1);
         
-        populateFromBuffer(v[0], vertexBuffer, index[0]);
-        populateFromBuffer(v[1], vertexBuffer, index[1]);
+        Vector3BufferUtils.populateFromBuffer(v[0], vertexBuffer, index[0]);
+        Vector3BufferUtils.populateFromBuffer(v[1], vertexBuffer, index[1]);
         
-        populateFromBuffer(t[0], textureBuffer, index[0]);
-        populateFromBuffer(t[1], textureBuffer, index[1]);
+        Vector2BufferUtils.populateFromBuffer(t[0], textureBuffer, index[0]);
+        Vector2BufferUtils.populateFromBuffer(t[1], textureBuffer, index[1]);
         
         for (int i = 2; i < vertexBuffer.limit() / 3; i++) {
             index[2] = indexBuffer.get(i);
-            populateFromBuffer(v[2], vertexBuffer, index[2]);
-            populateFromBuffer(t[2], textureBuffer, index[2]);
+            Vector3BufferUtils.populateFromBuffer(v[2], vertexBuffer, index[2]);
+            Vector2BufferUtils.populateFromBuffer(t[2], textureBuffer, index[2]);
             
             TriangleData triData = processTriangle(index, v, t);
             vertices.get(index[0]).triangles.add(triData);
@@ -640,9 +638,9 @@ public class TangentBinormalGenerator {
         final int size = vertexBuffer.limit() / 3;
         for (int i = 0; i < size; i++) {
             
-            populateFromBuffer(position, vertexBuffer, i);
-            populateFromBuffer(normal, normalBuffer, i);
-            populateFromBuffer(texCoord, texcoordBuffer, i);
+            Vector3BufferUtils.populateFromBuffer(position, vertexBuffer, i);
+            Vector3BufferUtils.populateFromBuffer(normal, normalBuffer, i);
+            Vector2BufferUtils.populateFromBuffer(texCoord, texcoordBuffer, i);
             
             boolean found = false;
             //Nehon 07/07/2013
@@ -905,17 +903,17 @@ public class TangentBinormalGenerator {
         FloatBuffer lineColor = BufferUtils.createFloatBuffer(vertexBuffer.limit() / 3 * 4 * 2);
         
         for (int i = 0; i < vertexBuffer.limit() / 3; i++) {
-            populateFromBuffer(origin, vertexBuffer, i);
-            populateFromBuffer(point, normalBuffer, i);
+            Vector3BufferUtils.populateFromBuffer(origin, vertexBuffer, i);
+            Vector3BufferUtils.populateFromBuffer(point, normalBuffer, i);
             
             int index = i * 2;
             
-            setInBuffer(origin, lineVertex, index);
+            Vector3BufferUtils.setInBuffer(origin, lineVertex, index);
             setInBuffer(originColor, lineColor, index);
             
             point.multLocal(scale);
             point.addLocal(origin);
-            setInBuffer(point, lineVertex, index + 1);
+            Vector3BufferUtils.setInBuffer(point, lineVertex, index + 1);
             setInBuffer(normalColor, lineColor, index + 1);
         }
         
@@ -958,8 +956,8 @@ public class TangentBinormalGenerator {
         float tangentW = 1;
         
         for (int i = 0; i < vertexBuffer.limit() / 3; i++) {
-            populateFromBuffer(origin, vertexBuffer, i);
-            populateFromBuffer(normal, normalBuffer, i);
+            Vector3BufferUtils.populateFromBuffer(origin, vertexBuffer, i);
+            Vector3BufferUtils.populateFromBuffer(normal, normalBuffer, i);
             
             if (hasParity) {
                 tangent.x = tangentBuffer.get(i * 4);
@@ -967,7 +965,7 @@ public class TangentBinormalGenerator {
                 tangent.z = tangentBuffer.get(i * 4 + 2);
                 tangentW = tangentBuffer.get(i * 4 + 3);
             } else {
-                populateFromBuffer(tangent, tangentBuffer, i);
+                Vector3BufferUtils.populateFromBuffer(tangent, tangentBuffer, i);
             }
             
             int index = i * 4;
@@ -980,13 +978,13 @@ public class TangentBinormalGenerator {
             lineIndex.put(id + 4, index);
             lineIndex.put(id + 5, index + 3);
             
-            setInBuffer(origin, lineVertex, index);
+            Vector3BufferUtils.setInBuffer(origin, lineVertex, index);
             setInBuffer(originColor, lineColor, index);
             
             point.set(tangent);
             point.multLocal(scale);
             point.addLocal(origin);
-            setInBuffer(point, lineVertex, index + 1);
+            Vector3BufferUtils.setInBuffer(point, lineVertex, index + 1);
             setInBuffer(tangentColor, lineColor, index + 1);
 
             // wvBinormal = cross(wvNormal, wvTangent) * -inTangent.w
@@ -996,18 +994,18 @@ public class TangentBinormalGenerator {
                 point.multLocal(-tangentW);
                 point.normalizeLocal();
             } else {
-                populateFromBuffer(point, binormalBuffer, i);
+                Vector3BufferUtils.populateFromBuffer(point, binormalBuffer, i);
             }
             
             point.multLocal(scale);
             point.addLocal(origin);
-            setInBuffer(point, lineVertex, index + 2);
+            Vector3BufferUtils.setInBuffer(point, lineVertex, index + 2);
             setInBuffer(binormalColor, lineColor, index + 2);
             
             point.set(normal);
             point.multLocal(scale);
             point.addLocal(origin);
-            setInBuffer(point, lineVertex, index + 3);
+            Vector3BufferUtils.setInBuffer(point, lineVertex, index + 3);
             setInBuffer(normalColor, lineColor, index + 3);
         }
         

@@ -33,6 +33,10 @@ package com.jme3.shader;
 
 import com.jme3.math.*;
 import com.jme3.util.BufferUtils;
+import com.jme3.util.Vector2BufferUtils;
+import com.jme3.util.Vector3BufferUtils;
+import com.jme3.util.Vector4fBufferUtils;
+
 import java.nio.Buffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
@@ -267,36 +271,36 @@ public class Uniform extends ShaderVariable {
             case Vector2Array:
                 Vector2f[] v2a = (Vector2f[]) value;
                 if (multiData == null) {
-                    multiData = BufferUtils.createFloatBuffer(v2a);
+                    multiData = Vector2BufferUtils.createFloatBuffer(v2a);
                 } else {
                     multiData = BufferUtils.ensureLargeEnough(multiData, v2a.length * 2);
                 }
                 for (int i = 0; i < v2a.length; i++) {
-                    BufferUtils.setInBuffer(v2a[i], multiData, i);
+                    Vector2BufferUtils.setInBuffer(v2a[i], multiData, i);
                 }
                 multiData.clear();
                 break;
             case Vector3Array:
                 Vector3f[] v3a = (Vector3f[]) value;
                 if (multiData == null) {
-                    multiData = BufferUtils.createFloatBuffer(v3a);
+                    multiData = Vector3BufferUtils.createFloatBuffer(v3a);
                 } else {
                     multiData = BufferUtils.ensureLargeEnough(multiData, v3a.length * 3);
                 }
                 for (int i = 0; i < v3a.length; i++) {
-                    BufferUtils.setInBuffer(v3a[i], multiData, i);
+                    Vector3BufferUtils.setInBuffer(v3a[i], multiData, i);
                 }
                 multiData.clear();
                 break;
             case Vector4Array:
                 Vector4f[] v4a = (Vector4f[]) value;
                 if (multiData == null) {
-                    multiData = BufferUtils.createFloatBuffer(v4a);
+                    multiData = Vector4fBufferUtils.createFloatBuffer(v4a);
                 } else {
                     multiData = BufferUtils.ensureLargeEnough(multiData, v4a.length * 4);
                 }
                 for (int i = 0; i < v4a.length; i++) {
-                    BufferUtils.setInBuffer(v4a[i], multiData, i);
+                    Vector4fBufferUtils.setInBuffer(v4a[i], multiData, i);
                 }
                 multiData.clear();
                 break;

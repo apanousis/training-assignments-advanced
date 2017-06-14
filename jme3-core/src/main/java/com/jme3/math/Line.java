@@ -32,8 +32,9 @@
 package com.jme3.math;
 
 import com.jme3.export.*;
-import com.jme3.util.BufferUtils;
 import com.jme3.util.TempVars;
+import com.jme3.util.Vector3BufferUtils;
+
 import java.io.IOException;
 import java.nio.FloatBuffer;
 
@@ -144,9 +145,9 @@ public class Line implements Savable, Cloneable, java.io.Serializable {
         // compute average of points
         int length = points.remaining() / 3;
 
-        BufferUtils.populateFromBuffer(origin, points, 0);
+        Vector3BufferUtils.populateFromBuffer(origin, points, 0);
         for (int i = 1; i < length; i++) {
-            BufferUtils.populateFromBuffer(compVec1, points, i);
+            Vector3BufferUtils.populateFromBuffer(compVec1, points, i);
             origin.addLocal(compVec1);
         }
 
@@ -158,7 +159,7 @@ public class Line implements Savable, Cloneable, java.io.Serializable {
 
         points.rewind();
         for (int i = 0; i < length; i++) {
-            BufferUtils.populateFromBuffer(compVec1, points, i);
+            Vector3BufferUtils.populateFromBuffer(compVec1, points, i);
             compVec1.subtract(origin, compVec2);
             sumXX += compVec2.x * compVec2.x;
             sumXY += compVec2.x * compVec2.y;

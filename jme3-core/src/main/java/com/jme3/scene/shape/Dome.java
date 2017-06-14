@@ -42,6 +42,9 @@ import com.jme3.scene.Mesh;
 import com.jme3.scene.VertexBuffer.Type;
 import com.jme3.util.BufferUtils;
 import com.jme3.util.TempVars;
+import com.jme3.util.Vector2BufferUtils;
+import com.jme3.util.Vector3BufferUtils;
+
 import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
@@ -198,9 +201,9 @@ public class Dome extends Mesh {
         // allocate texture coordinates
 //        getTextureCoords().set(0, new TexCoords(createVector2Buffer(getVertexCount())));
 
-        FloatBuffer vb = BufferUtils.createVector3Buffer(vertCount);
-        FloatBuffer nb = BufferUtils.createVector3Buffer(vertCount);
-        FloatBuffer tb = BufferUtils.createVector2Buffer(vertCount);
+        FloatBuffer vb = Vector3BufferUtils.createVector3Buffer(vertCount);
+        FloatBuffer nb = Vector3BufferUtils.createVector3Buffer(vertCount);
+        FloatBuffer tb = Vector2BufferUtils.createVector2Buffer(vertCount);
         setBuffer(Type.Position, 3, vb);
         setBuffer(Type.Normal, 3, nb);
         setBuffer(Type.TexCoord, 2, tb);
@@ -247,7 +250,7 @@ public class Dome extends Mesh {
                         kSliceCenter.y + tempVa.y).put(
                         kSliceCenter.z + tempVa.z);
 
-                BufferUtils.populateFromBuffer(tempVa, vb, i);
+                Vector3BufferUtils.populateFromBuffer(tempVa, vb, i);
                 kNormal = tempVa.subtractLocal(center);
                 kNormal.normalizeLocal();
                 if (!insideView) {
@@ -258,8 +261,8 @@ public class Dome extends Mesh {
 
                 tb.put(fRadialFraction).put(fYFraction);
             }
-            BufferUtils.copyInternalVector3(vb, iSave, i);
-            BufferUtils.copyInternalVector3(nb, iSave, i);
+            Vector3BufferUtils.copyInternalVector3(vb, iSave, i);
+            Vector3BufferUtils.copyInternalVector3(nb, iSave, i);
             tb.put(1.0f).put(fYFraction);
         }
 

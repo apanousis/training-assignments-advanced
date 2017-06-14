@@ -40,6 +40,9 @@ import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.VertexBuffer.Type;
+import com.jme3.util.Vector2BufferUtils;
+import com.jme3.util.Vector3BufferUtils;
+
 import static com.jme3.util.BufferUtils.*;
 import java.io.IOException;
 import java.nio.FloatBuffer;
@@ -129,9 +132,9 @@ public class PQTorus extends Mesh {
         // Allocate all of the required buffers
         int vertCount = radialSamples * steps;
         
-        FloatBuffer fpb = createVector3Buffer(vertCount);
-        FloatBuffer fnb = createVector3Buffer(vertCount);
-        FloatBuffer ftb = createVector2Buffer(vertCount);
+        FloatBuffer fpb = Vector3BufferUtils.createVector3Buffer(vertCount);
+        FloatBuffer fnb = Vector3BufferUtils.createVector3Buffer(vertCount);
+        FloatBuffer ftb = Vector2BufferUtils.createVector2Buffer(vertCount);
 
         Vector3f pointB, T, N, B;
         Vector3f tempNorm = new Vector3f();

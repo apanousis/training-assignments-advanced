@@ -33,7 +33,8 @@ package com.jme3.animation;
 
 import com.jme3.export.*;
 import com.jme3.math.Vector3f;
-import com.jme3.util.BufferUtils;
+import com.jme3.util.Vector3BufferUtils;
+
 import java.io.IOException;
 import java.nio.FloatBuffer;
 
@@ -84,13 +85,13 @@ public final class Pose implements Savable, Cloneable {
             tempVec.set(offset).multLocal(blend);
 
             // acquire vertex
-            BufferUtils.populateFromBuffer(tempVec2, vertbuf, vertIndex);
+            Vector3BufferUtils.populateFromBuffer(tempVec2, vertbuf, vertIndex);
 
             // add offset multiplied by factor
             tempVec2.addLocal(tempVec);
 
             // write modified vertex
-            BufferUtils.setInBuffer(tempVec2, vertbuf, vertIndex);
+            Vector3BufferUtils.setInBuffer(tempVec2, vertbuf, vertIndex);
         }
     }
     

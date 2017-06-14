@@ -42,6 +42,9 @@ import com.jme3.scene.Mesh;
 import com.jme3.scene.VertexBuffer.Type;
 import com.jme3.util.BufferUtils;
 import com.jme3.util.TempVars;
+import com.jme3.util.Vector2BufferUtils;
+import com.jme3.util.Vector3BufferUtils;
+
 import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
@@ -147,13 +150,13 @@ public class Sphere extends Mesh {
         // allocate vertices
         vertCount = (zSamples - 2) * (radialSamples + 1) + 2;
 
-        FloatBuffer posBuf = BufferUtils.createVector3Buffer(vertCount);
+        FloatBuffer posBuf = Vector3BufferUtils.createVector3Buffer(vertCount);
 
         // allocate normals if requested
-        FloatBuffer normBuf = BufferUtils.createVector3Buffer(vertCount);
+        FloatBuffer normBuf = Vector3BufferUtils.createVector3Buffer(vertCount);
 
         // allocate texture coordinates
-        FloatBuffer texBuf = BufferUtils.createVector2Buffer(vertCount);
+        FloatBuffer texBuf = Vector2BufferUtils.createVector2Buffer(vertCount);
 
         setBuffer(Type.Position, 3, posBuf);
         setBuffer(Type.Normal, 3, normBuf);
@@ -211,7 +214,7 @@ public class Sphere extends Mesh {
                         kSliceCenter.y + tempVa.y).put(
                         kSliceCenter.z + tempVa.z);
 
-                BufferUtils.populateFromBuffer(tempVa, posBuf, i);
+                Vector3BufferUtils.populateFromBuffer(tempVa, posBuf, i);
                 kNormal = tempVa;
                 kNormal.normalizeLocal();
                 if (!interior) // allow interior texture vs. exterior
@@ -240,8 +243,8 @@ public class Sphere extends Mesh {
                 i++;
             }
 
-            BufferUtils.copyInternalVector3(posBuf, iSave, i);
-            BufferUtils.copyInternalVector3(normBuf, iSave, i);
+            Vector3BufferUtils.copyInternalVector3(posBuf, iSave, i);
+            Vector3BufferUtils.copyInternalVector3(normBuf, iSave, i);
 
             if (textureMode == TextureMode.Original) {
                 texBuf.put(1.0f).put(

@@ -37,6 +37,8 @@ import com.jme3.scene.VertexBuffer;
 import com.jme3.scene.VertexBuffer.Format;
 import com.jme3.scene.VertexBuffer.Usage;
 import com.jme3.util.BufferUtils;
+import com.jme3.util.Vector3BufferUtils;
+
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 
@@ -60,7 +62,7 @@ public class ParticlePointMesh extends ParticleMesh {
         this.emitter = emitter;
 
         // set positions
-        FloatBuffer pb = BufferUtils.createVector3Buffer(numParticles);
+        FloatBuffer pb = Vector3BufferUtils.createVector3Buffer(numParticles);
         
         //if the buffer is already set only update the data
         VertexBuffer buf = getBuffer(VertexBuffer.Type.Position);
