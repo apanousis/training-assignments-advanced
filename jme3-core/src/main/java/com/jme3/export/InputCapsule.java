@@ -31,7 +31,6 @@
  */
 package com.jme3.export;
 
-import com.jme3.util.IntMap;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
@@ -41,66 +40,38 @@ import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Map;
 
+import com.jme3.util.IntMap;
+
 /**
  * @author Joshua Slack
  */
-public interface InputCapsule {
+public interface InputCapsule extends IntegerInputCapsule, ByteInputCapsule, FloatInputCapsule, DoubleInputCapsule {
 
-    public int getSavableVersion(Class<? extends Savable> clazz);
-    
-    // byte primitive
+    int getSavableVersion(Class<? extends Savable> clazz);
 
-    public byte readByte(String name, byte defVal) throws IOException;
-    public byte[] readByteArray(String name, byte[] defVal) throws IOException;
-    public byte[][] readByteArray2D(String name, byte[][] defVal) throws IOException;
+    short readShort(String name, short defVal) throws IOException;
 
-    // int primitive
+    short[] readShortArray(String name, short[] defVal) throws IOException;
 
-    public int readInt(String name, int defVal) throws IOException;
-    public int[] readIntArray(String name, int[] defVal) throws IOException;
-    public int[][] readIntArray2D(String name, int[][] defVal) throws IOException;
-
-
-    // float primitive
-
-    public float readFloat(String name, float defVal) throws IOException;
-    public float[] readFloatArray(String name, float[] defVal) throws IOException;
-    public float[][] readFloatArray2D(String name, float[][] defVal) throws IOException;
-
-
-    // double primitive
-
-    public double readDouble(String name, double defVal) throws IOException;
-    public double[] readDoubleArray(String name, double[] defVal) throws IOException;
-    public double[][] readDoubleArray2D(String name, double[][] defVal) throws IOException;
-
-
-    // long primitive
-
-    public long readLong(String name, long defVal) throws IOException;
-    public long[] readLongArray(String name, long[] defVal) throws IOException;
-    public long[][] readLongArray2D(String name, long[][] defVal) throws IOException;
-
-
-    // short primitive
-
-    public short readShort(String name, short defVal) throws IOException;
-    public short[] readShortArray(String name, short[] defVal) throws IOException;
-    public short[][] readShortArray2D(String name, short[][] defVal) throws IOException;
+    short[][] readShortArray2D(String name, short[][] defVal) throws IOException;
 
 
     // boolean primitive
 
-    public boolean readBoolean(String name, boolean defVal) throws IOException;
-    public boolean[] readBooleanArray(String name, boolean[] defVal) throws IOException;
-    public boolean[][] readBooleanArray2D(String name, boolean[][] defVal) throws IOException;
+    boolean readBoolean(String name, boolean defVal) throws IOException;
+
+    boolean[] readBooleanArray(String name, boolean[] defVal) throws IOException;
+
+    boolean[][] readBooleanArray2D(String name, boolean[][] defVal) throws IOException;
 
 
     // String
 
-    public String readString(String name, String defVal) throws IOException;
-    public String[] readStringArray(String name, String[] defVal) throws IOException;
-    public String[][] readStringArray2D(String name, String[][] defVal) throws IOException;
+    String readString(String name, String defVal) throws IOException;
+
+    String[] readStringArray(String name, String[] defVal) throws IOException;
+
+    String[][] readStringArray2D(String name, String[][] defVal) throws IOException;
 
 
     // BitSet
@@ -110,26 +81,33 @@ public interface InputCapsule {
 
     // BinarySavable
 
-    public Savable readSavable(String name, Savable defVal) throws IOException;
-    public Savable[] readSavableArray(String name, Savable[] defVal) throws IOException;
-    public Savable[][] readSavableArray2D(String name, Savable[][] defVal) throws IOException;
+    Savable readSavable(String name, Savable defVal) throws IOException;
+
+    Savable[] readSavableArray(String name, Savable[] defVal) throws IOException;
+
+    Savable[][] readSavableArray2D(String name, Savable[][] defVal) throws IOException;
 
 
     // ArrayLists
 
-    public ArrayList readSavableArrayList(String name, ArrayList defVal) throws IOException;
-    public ArrayList[] readSavableArrayListArray(String name, ArrayList[] defVal) throws IOException;
-    public ArrayList[][] readSavableArrayListArray2D(String name, ArrayList[][] defVal) throws IOException;
+    ArrayList readSavableArrayList(String name, ArrayList defVal) throws IOException;
 
-    public ArrayList<FloatBuffer> readFloatBufferArrayList(String name, ArrayList<FloatBuffer> defVal) throws IOException;
-    public ArrayList<ByteBuffer> readByteBufferArrayList(String name, ArrayList<ByteBuffer> defVal) throws IOException;
+    ArrayList[] readSavableArrayListArray(String name, ArrayList[] defVal) throws IOException;
+
+    ArrayList[][] readSavableArrayListArray2D(String name, ArrayList[][] defVal) throws IOException;
+
+    ArrayList<FloatBuffer> readFloatBufferArrayList(String name, ArrayList<FloatBuffer> defVal) throws IOException;
+
+    ArrayList<ByteBuffer> readByteBufferArrayList(String name, ArrayList<ByteBuffer> defVal) throws IOException;
 
 
     // Maps
 
-    public Map<? extends Savable, ? extends Savable> readSavableMap(String name, Map<? extends Savable, ? extends Savable> defVal) throws IOException;
-    public Map<String, ? extends Savable> readStringSavableMap(String name, Map<String, ? extends Savable> defVal) throws IOException;
-    public IntMap<? extends Savable> readIntSavableMap(String name, IntMap<? extends Savable> defVal) throws IOException;
+    Map<? extends Savable, ? extends Savable> readSavableMap(String name, Map<? extends Savable, ? extends Savable> defVal) throws IOException;
+
+    Map<String, ? extends Savable> readStringSavableMap(String name, Map<String, ? extends Savable> defVal) throws IOException;
+
+    IntMap<? extends Savable> readIntSavableMap(String name, IntMap<? extends Savable> defVal) throws IOException;
 
     // NIO BUFFERS
     // float buffer

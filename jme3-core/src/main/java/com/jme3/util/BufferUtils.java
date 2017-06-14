@@ -227,24 +227,6 @@ public final class BufferUtils {
         buf.put(color.a);
     }
 
-    /**
-     * Sets the data contained in the given quaternion into the FloatBuffer at
-     * the specified index.
-     *
-     * @param quat  the {@link Quaternion} to insert
-     * @param buf   the buffer to insert into
-     * @param index the position to place the data; in terms of quaternions not
-     *              floats
-     */
-    public static void setInBuffer(Quaternion quat, FloatBuffer buf, int index) {
-        buf.position(index * 4);
-        buf.put(quat.getX());
-        buf.put(quat.getY());
-        buf.put(quat.getZ());
-        buf.put(quat.getW());
-    }
-
-    // // -- VECTOR2F METHODS -- ////
 
     //// -- INT METHODS -- ////
 
@@ -266,24 +248,6 @@ public final class BufferUtils {
         return buff;
     }
 
-    /**
-     * Create a new int[] array and populate it with the given IntBuffer's
-     * contents.
-     *
-     * @param buff the IntBuffer to read from
-     * @return a new int array populated from the IntBuffer
-     */
-    public static int[] getIntArray(IntBuffer buff) {
-        if (buff == null) {
-            return null;
-        }
-        buff.clear();
-        int[] inds = new int[buff.limit()];
-        for (int x = 0; x < inds.length; x++) {
-            inds[x] = buff.get();
-        }
-        return inds;
-    }
 
     /**
      * Create a new float[] array and populate it with the given FloatBuffer's
@@ -319,24 +283,6 @@ public final class BufferUtils {
         return buf;
     }
 
-    /**
-     * Create a new DoubleBuffer of an appropriate size to hold the specified
-     * number of doubles only if the given buffer if not already the right size.
-     *
-     * @param buf  the buffer to first check and rewind
-     * @param size number of doubles that need to be held by the newly created
-     *             buffer
-     * @return the requested new DoubleBuffer
-     */
-    public static DoubleBuffer createDoubleBuffer(DoubleBuffer buf, int size) {
-        if (buf != null && buf.limit() == size) {
-            buf.rewind();
-            return buf;
-        }
-
-        buf = createDoubleBuffer(size);
-        return buf;
-    }
 
     /**
      * Creates a new DoubleBuffer with the same contents as the given
@@ -363,8 +309,6 @@ public final class BufferUtils {
 
         return copy;
     }
-
-    //// -- GENERAL FLOAT ROUTINES -- ////
 
     /**
      * Create a new FloatBuffer of the specified size.

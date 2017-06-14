@@ -31,11 +31,6 @@
  */
 package com.jme3.export.binary;
 
-import com.jme3.export.InputCapsule;
-import com.jme3.export.Savable;
-import com.jme3.export.SavableClassUtil;
-import com.jme3.util.BufferUtils;
-import com.jme3.util.IntMap;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
@@ -49,13 +44,19 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.jme3.export.InputCapsule;
+import com.jme3.export.Savable;
+import com.jme3.export.SavableClassUtil;
+import com.jme3.util.BufferUtils;
+import com.jme3.util.IntMap;
+
 /**
  * @author Joshua Slack
  */
 final class BinaryInputCapsule implements InputCapsule {
 
     private static final Logger logger = Logger
-            .getLogger(BinaryInputCapsule.class.getName());
+                                                 .getLogger(BinaryInputCapsule.class.getName());
 
     protected BinaryImporter importer;
     protected BinaryClassObject cObj;
@@ -72,7 +73,7 @@ final class BinaryInputCapsule implements InputCapsule {
 
     public void setContent(byte[] content, int start, int limit) {
         fieldData = new HashMap<Byte, Object>();
-        for (index = start; index < limit;) {
+        for (index = start; index < limit; ) {
             byte alias = content[index];
 
             index++;
@@ -256,10 +257,10 @@ final class BinaryInputCapsule implements InputCapsule {
             }
         }
     }
-    
-    public int getSavableVersion(Class<? extends Savable> desiredClass){
-        return SavableClassUtil.getSavedSavableVersion(savable, desiredClass, 
-                                            cObj.classHierarchyVersions, importer.getFormatVersion());
+
+    public int getSavableVersion(Class<? extends Savable> desiredClass) {
+        return SavableClassUtil.getSavedSavableVersion(savable, desiredClass,
+                cObj.classHierarchyVersions, importer.getFormatVersion());
     }
 
     public BitSet readBitSet(String name, BitSet defVal) throws IOException {
@@ -324,7 +325,7 @@ final class BinaryInputCapsule implements InputCapsule {
 
     @SuppressWarnings("unchecked")
     public ArrayList<ByteBuffer> readByteBufferArrayList(String name,
-            ArrayList<ByteBuffer> defVal) throws IOException {
+                                                         ArrayList<ByteBuffer> defVal) throws IOException {
         BinaryClassField field = cObj.nameFields.get(name);
         if (field == null || !fieldData.containsKey(field.alias))
             return defVal;
@@ -387,7 +388,7 @@ final class BinaryInputCapsule implements InputCapsule {
 
     @SuppressWarnings("unchecked")
     public ArrayList<FloatBuffer> readFloatBufferArrayList(String name,
-            ArrayList<FloatBuffer> defVal) throws IOException {
+                                                           ArrayList<FloatBuffer> defVal) throws IOException {
         BinaryClassField field = cObj.nameFields.get(name);
         if (field == null || !fieldData.containsKey(field.alias))
             return defVal;
@@ -491,7 +492,7 @@ final class BinaryInputCapsule implements InputCapsule {
     public Savable[][] readSavableArray2D(String name, Savable[][] defVal)
             throws IOException {
         BinaryClassField field = cObj.nameFields.get(name);
-        if (field == null ||!fieldData.containsKey(field.alias))
+        if (field == null || !fieldData.containsKey(field.alias))
             return defVal;
         Object[][] values = (Object[][]) fieldData.get(field.alias);
         if (values instanceof ID[][]) {
@@ -530,7 +531,7 @@ final class BinaryInputCapsule implements InputCapsule {
     }
 
     private ArrayList<Savable> savableArrayListFromArray(Savable[] savables) {
-        if(savables == null) {
+        if (savables == null) {
             return null;
         }
         ArrayList<Savable> arrayList = new ArrayList<Savable>(savables.length);
@@ -542,7 +543,7 @@ final class BinaryInputCapsule implements InputCapsule {
 
     // Assumes array of size 2 arrays where pos 0 is key and pos 1 is value.
     private Map<Savable, Savable> savableMapFrom2DArray(Savable[][] savables) {
-        if(savables == null) {
+        if (savables == null) {
             return null;
         }
         Map<Savable, Savable> map = new HashMap<Savable, Savable>(savables.length);
@@ -553,7 +554,7 @@ final class BinaryInputCapsule implements InputCapsule {
     }
 
     private Map<String, Savable> stringSavableMapFromKV(String[] keys, Savable[] values) {
-        if(keys == null || values == null) {
+        if (keys == null || values == null) {
             return null;
         }
 
@@ -565,7 +566,7 @@ final class BinaryInputCapsule implements InputCapsule {
     }
 
     private IntMap<Savable> intSavableMapFromKV(int[] keys, Savable[] values) {
-        if(keys == null || values == null) {
+        if (keys == null || values == null) {
             return null;
         }
 
@@ -614,7 +615,7 @@ final class BinaryInputCapsule implements InputCapsule {
     }
 
     public ArrayList[][] readSavableArrayListArray2D(String name,
-            ArrayList[][] defVal) throws IOException {
+                                                     ArrayList[][] defVal) throws IOException {
         BinaryClassField field = cObj.nameFields.get(name);
         if (field == null || !fieldData.containsKey(field.alias))
             return defVal;
@@ -778,11 +779,11 @@ final class BinaryInputCapsule implements InputCapsule {
 
     // int primitive
 
-    protected int readIntForBuffer(byte[] content){
-        int number = ((content[index+3] & 0xFF) << 24)
-                   + ((content[index+2] & 0xFF) << 16)
-                   + ((content[index+1] & 0xFF) << 8)
-                   +  (content[index]   & 0xFF);
+    protected int readIntForBuffer(byte[] content) {
+        int number = ((content[index + 3] & 0xFF) << 24)
+                             + ((content[index + 2] & 0xFF) << 16)
+                             + ((content[index + 1] & 0xFF) << 8)
+                             + (content[index] & 0xFF);
         index += 4;
         return number;
     }
@@ -793,7 +794,7 @@ final class BinaryInputCapsule implements InputCapsule {
         bytes = ByteUtils.rightAlignBytes(bytes, 4);
         int value = ByteUtils.convertIntFromBytes(bytes);
         if (value == BinaryOutputCapsule.NULL_OBJECT
-                || value == BinaryOutputCapsule.DEFAULT_OBJECT)
+                    || value == BinaryOutputCapsule.DEFAULT_OBJECT)
             index -= 4;
         return value;
     }
@@ -918,8 +919,8 @@ final class BinaryInputCapsule implements InputCapsule {
     }
 
     protected short readShortForBuffer(byte[] content) throws IOException {
-        short number = (short) ((content[index+0] & 0xFF)
-                             + ((content[index+1] & 0xFF) << 8));
+        short number = (short) ((content[index + 0] & 0xFF)
+                                        + ((content[index + 1] & 0xFF) << 8));
         index += 2;
         return number;
     }
@@ -1035,32 +1036,29 @@ final class BinaryInputCapsule implements InputCapsule {
         int utf8State = UTF8_START;
         int b;
         for (int x = 0; x < length; x++) {
-            bytes[x] =  content[index++];
+            bytes[x] = content[index++];
             b = (int) bytes[x] & 0xFF; // unsign our byte
 
             switch (utf8State) {
-            case UTF8_START:
-                if (b < 0x80) {
-                    // good
-                }
-                else if ((b & 0xC0) == 0xC0) {
-                    utf8State = UTF8_2BYTE;
-                }
-                else if ((b & 0xE0) == 0xE0) {
-                    utf8State = UTF8_3BYTE_1;
-                }
-                else {
-                    utf8State = UTF8_ILLEGAL;
-                }
-                break;
-            case UTF8_3BYTE_1:
-            case UTF8_3BYTE_2:
-            case UTF8_2BYTE:
-                 if ((b & 0x80) == 0x80)
-                    utf8State = utf8State == UTF8_3BYTE_1 ? UTF8_3BYTE_2 : UTF8_START;
-                 else
-                    utf8State = UTF8_ILLEGAL;
-                break;
+                case UTF8_START:
+                    if (b < 0x80) {
+                        // good
+                    } else if ((b & 0xC0) == 0xC0) {
+                        utf8State = UTF8_2BYTE;
+                    } else if ((b & 0xE0) == 0xE0) {
+                        utf8State = UTF8_3BYTE_1;
+                    } else {
+                        utf8State = UTF8_ILLEGAL;
+                    }
+                    break;
+                case UTF8_3BYTE_1:
+                case UTF8_3BYTE_2:
+                case UTF8_2BYTE:
+                    if ((b & 0x80) == 0x80)
+                        utf8State = utf8State == UTF8_3BYTE_1 ? UTF8_3BYTE_2 : UTF8_START;
+                    else
+                        utf8State = UTF8_ILLEGAL;
+                    break;
             }
         }
 
@@ -1069,12 +1067,11 @@ final class BinaryInputCapsule implements InputCapsule {
             if (utf8State == UTF8_START) {
                 // Java misspells UTF-8 as UTF8 for official use in java.lang
                 return new String(bytes, "UTF8");
-            }
-            else {
+            } else {
                 logger.log(
                         Level.WARNING,
                         "Your export has been saved with an incorrect encoding for it's String fields which means it might not load correctly " +
-                        "due to encoding issues. You should probably re-export your work. See ISSUE 276 in the jME issue tracker."
+                                "due to encoding issues. You should probably re-export your work. See ISSUE 276 in the jME issue tracker."
                 );
                 // We use ISO8859_1 to be consistent across platforms. We could default to native encoding, but this would lead to inconsistent
                 // behaviour across platforms!
@@ -1090,8 +1087,8 @@ final class BinaryInputCapsule implements InputCapsule {
             logger.log(
                     Level.SEVERE,
                     "Your export has been saved with an incorrect encoding or your version of Java is unable to decode the stored string. " +
-                    "While your export may load correctly by falling back, using it on different platforms or java versions might lead to "+
-                    "very strange inconsitenties. You should probably re-export your work. See ISSUE 276 in the jME issue tracker."
+                            "While your export may load correctly by falling back, using it on different platforms or java versions might lead to " +
+                            "very strange inconsitenties. You should probably re-export your work. See ISSUE 276 in the jME issue tracker."
             );
             return new String(bytes);
         }
@@ -1269,12 +1266,12 @@ final class BinaryInputCapsule implements InputCapsule {
         if (length == BinaryOutputCapsule.NULL_OBJECT)
             return null;
 
-        if (BinaryImporter.canUseFastBuffers()){
+        if (BinaryImporter.canUseFastBuffers()) {
             ByteBuffer value = BufferUtils.createByteBuffer(length * 4);
             value.put(content, index, length * 4).rewind();
             index += length * 4;
             return value.asFloatBuffer();
-        }else{
+        } else {
             FloatBuffer value = BufferUtils.createFloatBuffer(length);
             for (int x = 0; x < length; x++) {
                 value.put(readFloatForBuffer(content));
@@ -1291,12 +1288,12 @@ final class BinaryInputCapsule implements InputCapsule {
         if (length == BinaryOutputCapsule.NULL_OBJECT)
             return null;
 
-        if (BinaryImporter.canUseFastBuffers()){
+        if (BinaryImporter.canUseFastBuffers()) {
             ByteBuffer value = BufferUtils.createByteBuffer(length * 4);
             value.put(content, index, length * 4).rewind();
             index += length * 4;
             return value.asIntBuffer();
-        }else{
+        } else {
             IntBuffer value = BufferUtils.createIntBuffer(length);
             for (int x = 0; x < length; x++) {
                 value.put(readIntForBuffer(content));
@@ -1313,12 +1310,12 @@ final class BinaryInputCapsule implements InputCapsule {
         if (length == BinaryOutputCapsule.NULL_OBJECT)
             return null;
 
-        if (BinaryImporter.canUseFastBuffers()){
+        if (BinaryImporter.canUseFastBuffers()) {
             ByteBuffer value = BufferUtils.createByteBuffer(length);
             value.put(content, index, length).rewind();
             index += length;
             return value;
-        }else{
+        } else {
             ByteBuffer value = BufferUtils.createByteBuffer(length);
             for (int x = 0; x < length; x++) {
                 value.put(readByteForBuffer(content));
@@ -1335,12 +1332,12 @@ final class BinaryInputCapsule implements InputCapsule {
         if (length == BinaryOutputCapsule.NULL_OBJECT)
             return null;
 
-        if (BinaryImporter.canUseFastBuffers()){
+        if (BinaryImporter.canUseFastBuffers()) {
             ByteBuffer value = BufferUtils.createByteBuffer(length * 2);
             value.put(content, index, length * 2).rewind();
             index += length * 2;
             return value.asShortBuffer();
-        }else{
+        } else {
             ShortBuffer value = BufferUtils.createShortBuffer(length);
             for (int x = 0; x < length; x++) {
                 value.put(readShortForBuffer(content));
